@@ -34,7 +34,6 @@
     }
   ],
   "hosting": {
-    "site": "chromatherapy-agi-26be2",
     "public": "public",
     "ignore": [
       "firebase.json",
