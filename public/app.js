@@ -1,6 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getFirestore, collection, addDoc, serverTimestamp } from "firebase/firestore";
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -22,22 +23,27 @@ const analytics = getAnalytics(app);
 const db = getFirestore(app);
 
 // Send participant data to Firestore
-function submitData() {
+async function submitData() {
     const happiness = document.getElementById('happiness').value;
     const sadness = document.getElementById('sadness').value;
     const calmness = document.getElementById('calmness').value;
     const frustration = document.getElementById('frustration').value;
-  
-    // Add data to Firestore
-    firebase.firestore().collection('participants').add({
-      happiness: parseInt(happiness),
-      sadness: parseInt(sadness),
-      calmness: parseInt(calmness),
-      frustration: parseInt(frustration),
-      timestamp: firebase.firestore.FieldValue.serverTimestamp()
-    }).then(() => {
+   
+    try {
+      await addDoc(collection(db, "participants"), {
+          happiness: parseInt(happiness),
+          sadness: parseInt(sadness),
+          calmness: parseInt(calmness),
+          frustration: parseInt(frustration),
+          timestamp: serverTimestamp()
+      });
       alert('Data submitted!');
-    }).catch((error) => {
-      console.error('Error submitting data: ', error);
-    });
+  } catch (error) {
+      console.error('Error submitting data:', error);
   }
+}
+
+// Make submitData available globally
+window.submitData = submitData;
+// Attach submitData function to button click
+// document.getElementById('submitBtn').addEventListener('click', submitData);
