@@ -12,6 +12,8 @@ module.exports = {
   ],
   rules: {
     "no-restricted-globals": ["error", "name", "length"],
+    "max-len": "off",
+    "indent": "off",
     "prefer-arrow-callback": "error",
     "quotes": ["error", "double", {"allowTemplateLiterals": true}],
   },
