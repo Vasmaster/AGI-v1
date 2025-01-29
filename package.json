@@ -1,5 +1,24 @@
 {
   "dependencies": {
     "firebase": "^11.2.0"
-  }
+  },
+  "name": "agi-v1",
+  "version": "1.0.0",
+  "description": "AGI - Full Project development",
+  "main": "index.js",
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Vasmaster/AGI-v1.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Vasmaster/AGI-v1/issues"
+  },
+  "homepage": "https://github.com/Vasmaster/AGI-v1#readme"
 }
