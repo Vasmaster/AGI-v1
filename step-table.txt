@@ -1,0 +1,9 @@
+open page with 
+Welcome
+You have just become an essential part of this artwork.<br>
+We would like to welcome you by portraying your state of mind on the environment you see!
+  
+  Container - only opens with a button "participate"
+  register entry in data base
+  open window with  - Emotion Tracker
+  hide button "participate"
