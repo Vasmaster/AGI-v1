@@ -21,9 +21,9 @@ exports.aggregateData = onDocumentCreated("participants/{participantId}", async 
    // const data = snapshot.data();
    // Calculate averages (example)
   let totalHappiness = 0;
-  let totalSadness = 0;
+  let totalSadness = totalHappiness - 100;
   let totalCalmness = 0;
-  let totalFrustration = 0;
+  let totalFrustration = totalCalmness - 100;
   participants.forEach((doc) => {
     totalHappiness += doc.data().happiness;
     totalSadness += doc.data().sadness;
