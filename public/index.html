@@ -101,9 +101,20 @@
         border-color: #ffa100;
         box-shadow: 0 0 5px rgba(255, 161, 0, 0.3);
     }
-    
-    @media (max-width: 600px) {
 
+    @media (max-width: 768px) {
+      .rating-options label {
+        width: 35px;
+        height: 35px;
+        line-height: 35px;
+        font-size: 14px;
+      }
+    
+      /* Disable hover effects on mobile */
+      .rating-options label:hover {
+        background: white;
+        border-color: #ccc;
+      }
       body,
       #message {
         margin-top: 0;
@@ -122,6 +133,52 @@
       background-color: #ECEFF1;
     }
 
+    .rating-scale {
+      margin: 10px 0;
+    }
+
+    .rating-options {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 5px;
+    }
+
+    .rating-options input[type="radio"] {
+      display: none;
+    }
+
+    .rating-options label {
+      display: inline-block;
+      width: 40px;
+      height: 40px;
+      line-height: 40px;
+      text-align: center;
+      border: 2px solid #ccc;
+      border-radius: 50%;
+      cursor: pointer;
+      background: white;
+      transition: all 0.3s ease;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    .rating-options label.active {
+      background: #ffa100;
+      color: white;
+      border-color: #ffa100;
+    }
+    .rating-options label:hover {
+  background: #ffe0b2;
+  border-color: #ffa100;
+}
+
+.scale-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 12px;
+  color: #666;
+  padding: 0 10px;
+}
     .container {
       background: white;
       padding: 20px;
@@ -150,9 +207,9 @@
   <div>
     <h1> <strong style="color: orange;">Welcome</strong></h1>
     <p class="message p">You have just become an essential part of this artwork.<br>
-      We would like to welcome you by portraying your state of mind on the environment you see!</p>
+      We kindly welcome you to share your thoughts on the environment you visited!</p>
 
-    <h3 class="message h1">Emotion Tracker</h3>
+    <h3 class="message h1">Emotions Tracker</h3>
 
   </div>
   <div class="container">
@@ -165,8 +222,9 @@
 
     <!-- Mood Sliders (Initially Hidden) -->
     <div id="slidersContainer" style="display: none;">
-      <p><strong style="color: orange;">Enter Your Mood Data</strong></p>
-
+      <p><strong style="color: orange;">Feelings Meter - Visuals</strong></p>
+      <p style="font-style: italic; color: #667; text-align: center; margin-top: 5px;">Share with us your feelings about the Visual Novel.</p>
+      
       <!-- Happiness-Sadness Slider -->
       <div class="slider-container">
         <div class="slider-label">
@@ -197,12 +255,107 @@
         <input type="range" id="excited" min="0" max="100" value="50" oninput="updateSlider('excited')">
       </div>
 
+      <p><strong style="color: orange;">Precision Counter - AI Narrator</strong></p>
+      <p style="font-style: italic; color: #667; text-align: center; margin-top: 5px;">Give us a fair evaluation of the performance from the Narrator.</p>
+      <!--<p style="font-style: italic; size: 16 ; color: #667; text-align: center; margin-top: 5px;">'1' - Poor | '5' - Excellent</p>-->
+      
+      <div class="count-container">
+        <div class="count-label"> 
+          <span><strong>Delivery</strong></span>
+        </div>
+        <!-- 5-point rating scale -->
+        <div class="rating-scale">
+          <div class="rating-options">
+            <input type="radio" id="delivery1" name="delivery" value="1">
+            <label for="delivery1">★</label>
+            
+            <input type="radio" id="delivery2" name="delivery" value="2">
+            <label for="delivery2">★</label>
+            
+            <input type="radio" id="delivery3" name="delivery" value="3">
+            <label for="delivery3">★</label>
+            
+            <input type="radio" id="delivery4" name="delivery" value="4">
+            <label for="delivery4">★</label>
+            
+            <input type="radio" id="delivery5" name="delivery" value="5">
+            <label for="delivery5">★</label>
+          </div>
+          <div class="scale-labels">
+            <span>Poor</span>
+            <span>Excellent</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="count-container">
+        <div class="count-label"> 
+          <span><strong>Uncanny level</strong></span>
+        </div>
+        <!-- 5-point rating scale -->
+        <div class="rating-scale">
+          <div class="rating-options">
+            <input type="radio" id="uncanny1" name="uncanny" value="1">
+            <label for="uncanny1">★</label>
+            
+            <input type="radio" id="uncanny2" name="uncanny" value="2">
+            <label for="uncanny2">★</label>
+            
+            <input type="radio" id="uncanny3" name="uncanny" value="3">
+            <label for="uncanny3">★</label>
+            
+            <input type="radio" id="uncanny4" name="uncanny" value="4">
+            <label for="uncanny4">★</label>
+            
+            <input type="radio" id="uncanny5" name="uncanny" value="5">
+            <label for="uncanny5">★</label>
+          </div>
+          <div class="scale-labels">
+            <span>Robotic</span>
+            <span>Human-like</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="count-container">
+        <div class="count-label"> 
+          <span><strong>Intonation</strong></span>
+        </div>
+        <!-- 5-point rating scale -->
+        <div class="rating-scale">
+          <div class="rating-options">
+            <input type="radio" id="intonation1" name="intonation" value="1">
+            <label for="intonation1">★</label>
+            
+            <input type="radio" id="intonation2" name="intonation" value="2">
+            <label for="intonation2">★</label>
+            
+            <input type="radio" id="intonation3" name="intonation" value="3">
+            <label for="intonation3">★</label>
+            
+            <input type="radio" id="intonation4" name="intonation" value="4">
+            <label for="intonation4">★</label>
+            
+            <input type="radio" id="intonation5" name="intonation" value="5">
+            <label for="intonation5">★</label>
+          </div>
+          <div class="scale-labels">
+            <span>Monotony</span>
+            <span>Strong Character</span>
+          </div>
+        </div>
+      </div>
+
+      <span>
+
+      </span>
+      <p><strong style="color: orange;">Overall</strong></p>
       <!-- Feedback Text Box -->
       <div class="slider-container">
         <div class="slider-label">
             <span>Optional Feedback</span>
         </div>
-        <textarea id="feedback" placeholder="Share your experience or any additional thoughts..." rows="4" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: Arial, sans-serif;"></textarea>
+        <textarea id="feedback" placeholder="Share your experience or any additional thoughts..." rows="4" style="width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 4px; font-family: Arial, sans-serif; font-style: italic;"></textarea>
       </div>
 
       <button type="submit" id="submitBtn">Submit</button>
