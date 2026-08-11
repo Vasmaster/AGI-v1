@@ -9,6 +9,8 @@ Those responses are aggregated in near real time into a single set of averages t
 the installation reads back — so the room reflects the mood of everyone who has
 walked through it.
 
+This repositoy is a study-case for the official AGI project development.
+
 Deployed as a Firebase Hosting site (`chromatherapy-agi`) backed by Cloud Firestore
 and Cloud Functions.
 
