@@ -2,17 +2,65 @@ rules_version = '2';
 
 service cloud.firestore {
   match /databases/{database}/documents {
-      // Allow read/write to authenticated users only
+
+    // A submission carries only the fields the form sends, within the ranges
+    // the form can actually produce. Sliders are 0-100, ratings are 1-5 (0 when
+    // left unanswered).
+    function isValidSubmission(data) {
+      return data.keys().hasOnly([
+               'happiness', 'sadness', 'calmness', 'nervous', 'excited',
+               'boredom', 'feedback', 'deliveryRating', 'uncannyRating',
+               'intonationRating', 'timestamp'
+             ])
+             && isPercent(data.happiness) && isPercent(data.sadness)
+             && isPercent(data.calmness) && isPercent(data.nervous)
+             && isPercent(data.excited)  && isPercent(data.boredom)
+             && isRating(data.deliveryRating) && isRating(data.uncannyRating)
+             && isRating(data.intonationRating)
+             && data.feedback is string && data.feedback.size() <= 2000;
+    }
+
+    function isPercent(value) {
+      return value is number && value >= 0 && value <= 100;
+    }
+
+    function isRating(value) {
+      return value is number && value >= 0 && value <= 5;
+    }
+
+    // Participant submissions, keyed by the participant's chosen name.
+    // Clients write but never read: the only public view of this data is the
+    // aggregated, non-identifying document in /averages. Denying reads here is
+    // what keeps participant names out of reach.
     match /participants/{participantId} {
-      allow read, write: if request.auth != null;
+      allow read: if false;
+      allow create, update: if request.auth != null
+                            && isValidSubmission(request.resource.data);
+      allow delete: if false;
     }
-    
-    // Allow read/write to the 'averages' collection
+
+    // Name registry, used only to reject duplicate names.
+    // `get` is permitted so the form can check one name it already knows;
+    // `list` is denied so the participant roster cannot be enumerated.
+    match /users/{participantId} {
+      allow get: if request.auth != null;
+      allow list: if false;
+      allow create: if request.auth != null
+                    && request.resource.data.keys().hasOnly(['participantId'])
+                    && request.resource.data.participantId == participantId;
+      allow update, delete: if false;
+    }
+
+    // Aggregated results. Written exclusively by the Cloud Functions in
+    // functions/index.js, which use the Admin SDK and bypass these rules.
     match /averages/{doc} {
-      allow read, write: if true;  // 🔥 Make this more secure later!
+      allow read: if true;
+      allow write: if false;
     }
-     match /{document=**} {
-      allow read, write: if true;
+
+    // Anything not matched above is denied.
+    match /{document=**} {
+      allow read, write: if false;
     }
   }
 }

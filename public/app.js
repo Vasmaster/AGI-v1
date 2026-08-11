@@ -17,6 +17,14 @@ firebase.initializeApp(firebaseConfig);
 const analytics = firebase.analytics();
 const db = firebase.firestore();
 
+// Firestore rules require an authenticated caller for every write, so no part of
+// the form talks to the database until this sign-in resolves.
+const authReady = firebase.auth().signInAnonymously()
+  .catch(error => {
+    console.error('Anonymous sign-in failed:', error);
+    throw error;
+  });
+
 // Send participant data to Firestore
 async function submitData() {
   const happiness = Number(document.getElementById('happiness').value) || 0;
@@ -40,9 +48,11 @@ async function submitData() {
   Number(document.querySelector('input[name="intonation"]:checked').value) : 0;
 
   try {
+    await authReady;
+
     // Get participant ID (e.g., from URL or local storage)
     const participantId = await getParticipantId();
-    
+
     // Create a new document in the "participants" collection with corrected field names
     await db.collection("participants").doc(participantId).set({
       happiness,
@@ -199,15 +209,28 @@ document.addEventListener("DOMContentLoaded", async function () {
           alert("Please enter your name before proceeding.");
           return;
       }
-  
+
+      // The name doubles as the Firestore document ID, so reject anything
+      // Firestore cannot use as a key.
+      if (enteredName.includes("/") || enteredName === "." || enteredName === ".." ||
+          /^__.*__$/.test(enteredName) || enteredName.length > 100) {
+          alert("Please use a simpler name (no slashes, under 100 characters).");
+          return;
+      }
+
       try {
-          // Check if the name already exists in Firebase
+          await authReady;
+
+          // Check if the name already exists in Firebase.
+          // This reads the single document by ID rather than querying the
+          // collection, so the rules can permit `get` while denying `list` —
+          // that keeps the participant list from being enumerable.
           const db = firebase.firestore();
           const usersRef = db.collection("users");
-  
-          const querySnapshot = await usersRef.where("participantId", "==", enteredName).get();
-  
-          if (!querySnapshot.empty) {
+
+          const existing = await usersRef.doc(enteredName).get();
+
+          if (existing.exists) {
               alert("⚠️ Name already in use! Please choose a different name.");
           } else {
               // If name is unique, save it
