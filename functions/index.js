@@ -114,11 +114,11 @@ exports.aggregateDataOnUpdate = onDocumentUpdated("participants/{participantId}"
 
 // Optional: Add a scheduled function to recalculate averages periodically
 // This ensures data consistency even if triggers miss some events
-exports.scheduledAggregate = require("firebase-functions/v2/scheduler").onSchedule("every 60 minutes", async (event) => {
-  try {
-    await aggregateAllData();
-    console.log("Scheduled data aggregation completed");
-  } catch (error) {
-    console.error("Error in scheduled aggregation:", error);
-  }
-});
+// exports.scheduledAggregate = require("firebase-functions/v2/scheduler").onSchedule("every 60 minutes", async (event) => {
+// try {
+//    await aggregateAllData();
+//    console.log("Scheduled data aggregation completed");
+//  } catch (error) {
+//    console.error("Error in scheduled aggregation:", error);
+//  }
+// });
