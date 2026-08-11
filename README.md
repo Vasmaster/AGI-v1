@@ -44,15 +44,18 @@ enforce that rather than relying on convention:
 Submissions are also shape-validated in the rules: only the expected fields, sliders
 within 0–100, ratings within 0–5, feedback capped at 2000 characters.
 
-### About the Firebase API key
+### About the Firebase config
 
-The `apiKey` in [`public/app.js`](public/app.js) is a Firebase **Web** API key. It is
-not a credential and not a secret — it identifies the project to Google's servers and
-is served to every browser that loads the site. It grants no access on its own; the
-Firestore rules above are what actually control access.
+The project config is not checked into this repository. Firebase Hosting serves it at
+[`/__/firebase/init.js`](https://firebase.google.com/docs/hosting/reserved-urls),
+which `index.html` loads and which calls `initializeApp` before `app.js` runs.
 
-It should still be scoped in the Google Cloud console: restrict it to this site's
-HTTP referrers, and enable App Check so only the real app can call the backend.
+Worth being clear about what this does and does not buy: a Firebase **Web** API key
+is not a credential and not a secret. It identifies the project to Google's servers
+and is served to every browser that loads the site, so keeping it out of the repo is
+tidiness, not a security control. The Firestore rules above are what actually control
+access. The key should additionally be scoped in the Google Cloud console by HTTP
+referrer, with App Check enabled so only the real app can reach the backend.
 
 ## Running locally
 

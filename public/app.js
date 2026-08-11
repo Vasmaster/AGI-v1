@@ -1,19 +1,6 @@
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
-// Your web app's Firebase configuration
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-const firebaseConfig = {
-  apiKey: "FIREBASE_WEB_API_KEY_REMOVED",
-  authDomain: "chromatherapy-agi.firebaseapp.com",
-  projectId: "chromatherapy-agi",
-  storageBucket: "chromatherapy-agi.firebasestorage.app",
-  messagingSenderId: "916355869435",
-  appId: "1:916355869435:web:d510504bcf1cc313e9de5e",
-  measurementId: "G-DYV9430MED"
-};
-
-// Initialize Firebase
-firebase.initializeApp(firebaseConfig);
+// The Firebase project config is served by Firebase Hosting at
+// /__/firebase/init.js (loaded in index.html), which calls initializeApp for us.
+// Nothing here is hardcoded, so the config never lives in this repository.
 const analytics = firebase.analytics();
 const db = firebase.firestore();
 
